@@ -47,7 +47,7 @@ for file in files:
                 result.append('null')
                 result.append('0')
         except:
-            bs_obj = BeautifulSoup(open(path + file, encoding='gbk'), 'html.parser')
+            bs_obj = BeautifulSoup(open(path + file, encoding='gbk'), 'lxml')
             try:
 
                 title = bs_obj.select('title')[0].get_text().replace(' - 企查查', '')
