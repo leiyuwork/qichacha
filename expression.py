@@ -1,10 +1,11 @@
-from bs4 import BeautifulSoup
+import bs4
 import os
 import re
+import lxml
 from openpyxl import load_workbook  # A Python library to read/write Excel xlsx/xlsm files
 import difflib
 
-path = r"C:\Users\ray\OneDrive\qichacha\1-2000\\"
+path = r"C:\Users\ray94\OneDrive\qichacha\4001-6000\\"
 files = os.listdir(path)
 
 for file in files:
@@ -17,7 +18,7 @@ for file in files:
         result.append('0')
     else:
         try:
-            bs_obj = BeautifulSoup(open(path + file, encoding='UTF-8'), 'lxml')
+            bs_obj = bs4.BeautifulSoup(open(path + file, encoding='UTF-8'), 'lxml')
             try:
 
                 title = bs_obj.select('title')[0].get_text().replace(' - 企查查', '')
@@ -39,7 +40,7 @@ for file in files:
                 result.append(og_type)
                 result.append(area)
                 result.append(title)
-                result.append(difflib.SequenceMatcher(file.replace('.html', ''), title).ratio())
+                result.append(difflib.SequenceMatcher(None, file.replace('.html', ''), title).ratio())
             except:
                 result.append(file.replace('.html', '').replace('null', ''))
                 result.append('null')
@@ -47,7 +48,7 @@ for file in files:
                 result.append('null')
                 result.append('0')
         except:
-            bs_obj = BeautifulSoup(open(path + file, encoding='gbk'), 'lxml')
+            bs_obj = bs4.BeautifulSoup(open(path + file, encoding='gbk'), 'lxml')
             try:
 
                 title = bs_obj.select('title')[0].get_text().replace(' - 企查查', '')
@@ -69,7 +70,7 @@ for file in files:
                 result.append(og_type)
                 result.append(area)
                 result.append(title)
-                result.append(difflib.SequenceMatcher(file.replace('.html', ''), title).ratio())
+                result.append(difflib.SequenceMatcher(None, file.replace('.html', ''), title).ratio())
             except:
                 result.append(file.replace('.html', '').replace('null', ''))
                 result.append('null')
@@ -78,10 +79,10 @@ for file in files:
                 result.append('0')
     print(result)
 
-    wb = load_workbook(r'C:\Users\ray\Desktop\1-2000shanshan.xlsx')  # open excel
+    wb = load_workbook(r'C:\Users\ray94\Desktop\4001-6000shanshan.xlsx')  # open excel
     sheet = wb.active  # get the currently active sheet
     sheet.append(result)  # append matching result to excel sheet
-    wb.save(r'C:\Users\ray\Desktop\1-2000shanshan.xlsx')  # save excel
+    wb.save(r'C:\Users\ray94\Desktop\4001-6000shanshan.xlsx')  # save excel
 
 
 
